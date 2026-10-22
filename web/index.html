@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#17181c">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Masters Compendium">
+  <title>Masters Compendium</title>
+  <link rel="manifest" href="/web/manifest.webmanifest">
+  <link rel="icon" href="/web/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/web/icon-192.png">
+  <link rel="stylesheet" href="/web/style.css?v=0.12.0">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <linearGradient id="mcg" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#a78bfa"/><stop offset=".55" stop-color="#8b5cf6"/><stop offset="1" stop-color="#e9e3ff"/></linearGradient>
+  </defs></svg>
+  <div class="bg"></div>
+
+  <!-- ===== Вход ===== -->
+  <section id="scr-join" class="screen">
+    <div class="topbar">
+      <span></span>
+      <button class="lang" data-lang-toggle>EN</button>
+    </div>
+    <div class="join-wrap">
+      <img class="logo" src="/web/logo.svg" alt="">
+      <div class="app-name">Masters Compendium</div>
+      <div class="campaign-name" id="join-campaign">…</div>
+
+      <form class="card glass" id="join-form" autocomplete="off">
+        <h1 data-i18n="join.title"></h1>
+        <label>
+          <span data-i18n="join.name"></span>
+          <input id="in-name" maxlength="32" data-i18n-ph="join.name.ph" autocapitalize="words" enterkeyhint="next">
+        </label>
+        <div class="field">
+          <span data-i18n="join.color"></span>
+          <div class="swatches" id="swatches"></div>
+        </div>
+        <label id="code-row">
+          <span data-i18n="join.code"></span>
+          <input id="in-code" maxlength="8" data-i18n-ph="join.code.ph" autocapitalize="characters"
+                 spellcheck="false" enterkeyhint="go" class="code">
+          <small class="muted" data-i18n="join.hint"></small>
+        </label>
+        <div class="error" id="join-error" hidden></div>
+        <button class="btn primary" id="btn-join" type="submit" data-i18n="join.go"></button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== Игра ===== -->
+  <section id="scr-game" class="screen" hidden>
+    <header class="game-head glass">
+      <div class="head-left">
+        <img src="/web/logo.svg" alt="" class="head-logo">
+        <div>
+          <div class="head-title" id="game-campaign">…</div>
+          <div class="head-sub"><span class="dot" id="conn-dot"></span><span id="conn-text"></span></div>
+        </div>
+      </div>
+      <div class="head-right">
+        <span class="me-chip" id="me-chip"></span>
+        <button class="lang" data-lang-toggle>EN</button>
+      </div>
+    </header>
+
+    <div class="banner" id="banner" hidden></div>
+
+    <main class="tabs-body">
+      <div class="tab" data-tab="character" id="tab-character">
+        <button class="btn small back-btn" id="char-back" hidden><i data-ic="back"></i><span data-i18n="chars.back"></span></button>
+        <div id="sheet-root"></div>
+      </div>
+      <div class="tab map-tab" data-tab="map" id="tab-map">
+        <div class="map-stage" id="map-stage">
+          <div class="map-empty" id="map-empty"></div>
+          <div class="map-tools glass" id="map-tools"></div>
+          <div class="map-tmpl-pop glass" id="map-tmpl-pop" hidden></div>
+          <div class="map-mode glass" id="map-mode" hidden></div>
+          <div class="map-initiative glass" id="map-initiative" hidden></div>
+          <button class="map-gm-toggle glass" id="map-gm-toggle" hidden><i data-ic="layers"></i></button>
+          <aside class="map-gm glass" id="map-gm" hidden></aside>
+          <aside class="map-dock" id="map-dock">
+            <section class="dock-card map-panel glass" id="map-panel" hidden></section>
+            <section class="dock-card glass" id="dock-combat" hidden></section>
+            <section class="dock-card glass" id="dock-log" hidden></section>
+          </aside>
+          <div class="map-set glass" id="map-set" hidden></div>
+        </div>
+      </div>
+      <div class="tab" data-tab="combat" id="tab-combat">
+        <div id="combat-tab"></div>
+      </div>
+      <div class="tab" data-tab="gm" id="tab-gm">
+        <div id="gm-tab"></div>
+      </div>
+      <div class="tab" data-tab="dice" id="tab-dice">
+        <div id="dice-tab"></div>
+      </div>
+      <div class="tab" data-tab="camp" id="tab-camp">
+        <div id="camp-tab"></div>
+      </div>
+      <div class="tab" data-tab="lounge" id="tab-lounge">
+        <div id="lounge-tab"></div>
+      </div>
+      <div class="tab" data-tab="pop" id="tab-pop"></div>
+      <div class="tab" data-tab="party" id="tab-party">
+        <div class="party-cols">
+          <div class="pc-left">
+            <h2 class="section" data-i18n="party.title"></h2>
+            <div id="xp-gm" hidden></div>
+            <ul class="players" id="players"></ul>
+            <div id="handouts" hidden></div>
+            <div id="pnotes" hidden></div>
+            <p class="muted small" id="install-hint" data-i18n="install.hint"></p>
+            <button class="btn ghost" id="btn-leave" data-i18n="leave"></button>
+          </div>
+          <div class="pc-right"><div id="trade"></div></div>
+        </div>
+      </div>
+    </main>
+
+    <nav class="tabbar glass">
+      <button data-go="character"><span class="ti" data-ic="character"></span><span data-i18n="tab.character"></span></button>
+      <button data-go="map"><span class="ti" data-ic="map"></span><span data-i18n="tab.map"></span></button>
+      <button data-go="combat"><span class="ti" data-ic="attacks"></span><span data-i18n="tab.combat"></span></button>
+      <button data-go="dice"><span class="ti" data-ic="d20"></span><span data-i18n="tab.dice"></span></button>
+      <button data-go="party"><span class="ti" data-ic="party"></span><span data-i18n="tab.party"></span></button>
+      <button data-go="camp" hidden><span class="ti" data-ic="crit"></span><span data-i18n="tab.camp"></span></button>
+      <button data-go="gm" hidden><span class="ti" data-ic="crown"></span><span data-i18n="tab.gm"></span></button>
+      <button data-go="lounge" hidden><span class="ti" data-ic="tent"></span><span data-i18n="tab.lounge"></span></button>
+    </nav>
+  </section>
+
+  <!-- быстрые кубики: кнопка на всех вкладках, кроме «Кубов» -->
+  <button class="qd-fab glass" id="qd-fab" hidden aria-label="d20"><i data-ic="d20"></i></button>
+  <div class="qd-pop glass" id="qd-pop" hidden></div>
+
+  <!-- ===== Сообщение (выгнали / сессия окончена) ===== -->
+  <section id="scr-msg" class="screen" hidden>
+    <div class="join-wrap">
+      <img class="logo" src="/web/logo.svg" alt="">
+      <div class="card glass center">
+        <h1 id="msg-title"></h1>
+        <p id="msg-text" class="muted"></p>
+        <button class="btn primary" id="btn-again" data-i18n="again"></button>
+      </div>
+    </div>
+  </section>
+
+  <script src="/web/i18n.js?v=0.12.0"></script>
+  <script src="/web/js/icons.js?v=0.12.0"></script>
+  <script src="/web/js/core.js?v=0.12.0"></script>
+  <script src="/web/js/crop.js?v=0.12.0"></script>
+  <script src="/web/js/rules.js?v=0.12.0"></script>
+  <script src="/web/js/dice.js?v=0.12.0"></script>
+  <script src="/web/js/sheet.js?v=0.12.0"></script>
+  <script src="/web/js/sheet_modals.js?v=0.12.0"></script>
+  <script src="/web/js/money.js?v=0.12.0"></script>
+  <script src="/web/js/xp.js?v=0.12.0"></script>
+  <script src="/web/js/wizard.js?v=0.12.0"></script>
+  <script src="/web/js/map.js?v=0.12.0"></script>
+  <script src="/web/js/map_gm.js?v=0.12.0"></script>
+  <script src="/web/js/marks.js?v=0.12.0"></script>
+  <script src="/web/js/statblock.js?v=0.12.0"></script>
+  <script src="/web/js/actions.js?v=0.12.0"></script>
+  <script src="/web/js/combat.js?v=0.12.0"></script>
+  <script src="/web/js/lounge.js?v=0.12.0"></script>
+  <script src="/web/js/lounge_games.js?v=0.12.0"></script>
+  <script src="/web/js/lounge_dice.js?v=0.12.0"></script>
+  <script src="/web/js/lounge_mines.js?v=0.12.0"></script>
+  <script src="/web/js/lounge_board.js?v=0.12.0"></script>
+  <script src="/web/js/scene.js?v=0.12.0"></script>
+  <script src="/web/js/notes.js?v=0.12.0"></script>
+  <script src="/web/js/gmtools.js?v=0.12.0"></script>
+  <script src="/web/js/world.js?v=0.12.0"></script>
+  <script src="/web/js/trade.js?v=0.12.0"></script>
+  <script src="/web/js/audio.js?v=0.12.0"></script>
+  <script src="/web/js/mapgen.js?v=0.12.0"></script>
+  <script src="/web/js/actlog.js?v=0.12.0"></script>
+  <script src="/web/js/settings.js?v=0.12.0"></script>
+  <script src="/web/js/creator.js?v=0.12.0"></script>
+  <script src="/web/app.js?v=0.12.0"></script>
+</body>
+</html>

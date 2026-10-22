@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.ruff_cache/
+build/
+dist/
+*.exe
+MastersCompendium_data/
+*.campaign
+*.character
+.venv/
+venv/
